@@ -14,9 +14,9 @@ ex_map = {
     "ex6": "./exercises/cairo/ex6.cairo",   
     "ex7": "./exercises/cairo/ex7.cairo",   
     "basic": "./exercises/contracts/basic/basic.cairo",
+    "battleship": "./exercises/contracts/battleship/battleship.cairo",
     "erc20": "./exercises/contracts/erc20/erc20.cairo",
-    "erc721": "./exercises/contracts/erc721/erc721.cairo",
-    "battleship": "./exercises/contracts/battleship/battleship.cairo",    
+    "erc721": "./exercises/contracts/erc721/erc721.cairo",    
 }
 
 test_map = {
@@ -28,9 +28,10 @@ test_map = {
     "ex6": "./test/test_ex6.cairo",   
     "ex7": "./test/test_ex7.cairo",   
     "basic": "./test/test_basic.cairo",
+ "battleship": "./test/test_battleship.cairo",
     "erc20": "./test/test_erc20.cairo",
     "erc721": "./test/test_erc721.cairo",
-    "battleship": "./test/test_battleship.cairo",    
+     
 }
 
 def check_exercises_finished(exercise_path):
