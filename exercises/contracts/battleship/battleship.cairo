@@ -10,15 +10,23 @@ from starkware.cairo.common.hash_state import hash_init, hash_update
 from starkware.cairo.common.bitwise import bitwise_and, bitwise_xor
 
 struct Square:    
-    member PLACEHOLDER: felt
+    member square_commit: felt
+    member square_reveal: felt
+    member shot: felt
 end
 
 struct Player:    
-    member PLACEHOLDER: felt
+    member address: felt
+    member points: felt
+    member revealed: felt
 end
 
 struct Game:        
-    member PLACEHOLDER: felt
+    member player1: Player
+    member player2: Player
+    member next_player: felt
+    member last_move: (felt,felt)
+    member winner: felt
 end
 
 @storage_var
@@ -50,16 +58,45 @@ end
 ## Provide two addresses
 @external
 func set_up_game{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(player1 : felt, player2 : felt):
+    let (counter) = game_counter.read()
+    let player1Obj = Player(
+        address=player1,
+        points=0,
+        revealed=0
+    )
+    let player2Obj = Player(
+        address=player2,
+        points=0,
+        revealed=0
+    )
+    let new_game = Game(
+        player1=player1Obj,
+        player2=player2Obj,
+        next_player=0,
+        last_move=(0,0),
+        winner=0
+    )
+
+    games.write(counter, new_game)
+    
+    game_counter.write(counter)
     return ()
 end
 
 @view 
 func check_caller{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(caller : felt, game : Game) -> (valid : felt):
-    return(1)  
+    if game.player1.address == caller:
+        return(1)  
+    end
+    if game.player2.address == caller:
+        return(1)
+    end
+    return(0)
 end
 
 @view
 func check_hit{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr, bitwise_ptr: BitwiseBuiltin*}(square_commit : felt, square_reveal : felt) -> (hit : felt):
+
 end
 
 @external

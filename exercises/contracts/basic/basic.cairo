@@ -1,4 +1,3 @@
-## I AM NOT DONE
 
 %lang starknet
 from starkware.cairo.common.cairo_builtins import HashBuiltin, BitwiseBuiltin
@@ -9,9 +8,9 @@ from starkware.cairo.common.alloc import alloc
 from starkware.cairo.common.bitwise import bitwise_and, bitwise_xor
 
 struct Sale_Details:
-    member price: felt,
-    member item_index: felt, 
-    member discount_applied: felt,
+    member price: felt
+    member item_index: felt 
+    member discount_applied: felt
 end
 
 ## Variables which are stored on-chain and persist between invocations are prefaced with @storage_var
@@ -31,18 +30,19 @@ end
 func submit_sale{pedersen_ptr : HashBuiltin*, syscall_ptr : felt*, range_check_ptr}(price : felt, item_index : felt, discount_applied : felt, buyer : felt, seller : felt, transaction : felt):
 
     ## Variables must be instantiated with either let/tempvar/local
-    sale = Sale_Details(price, item_index, discount_applied)
+    let sale = Sale_Details(price, item_index, discount_applied)
 
     ## Write sale date
     sales.write(buyer, seller, transaction, sale)
 
     ## Get transaction counter
-    let tc = total_customers.read()
+    let (idx) = total_customers.read()
 
     ## Increment transaction counter
-    total_customers.write(tc)
+    total_customers.write(idx + 1)
 
-    ## Functions must always return something    
+    ## Functions must always return something
+    return ()    
 end
 
 
